@@ -7,6 +7,7 @@ Created on Sat Jul  26 02:42:42 2025
   @model: 4o
 """
 
+from pyexpat import model
 import streamlit as st
 import openai as ai
 import logging
@@ -17,6 +18,7 @@ import datetime
 
 # Your OpenAI API key (set this as an env var in production!)
 ai.api_key = os.getenv("OPENAI_API_KEY")
+aiModel = "gpt-4o"
 
 # Logging config
 LOG_FILE = "visitors.log"
@@ -42,7 +44,7 @@ def call_openai(prompt):
     try:
         client = ai()
         response = client.chat.completions.create(
-            model="gpt-4o",
+            model=aiModel,
             messages=[
                 {"role": "system", "content": "You're a helpful assistant."},
                 {"role": "user", "content": prompt}
@@ -65,7 +67,7 @@ user_input = st.text_area("Enter your message:", height = 100)
 if st.button("Send"):
     if user_input.strip():
         ip = get_visitor_ip()
-        st.spinner("Processing your request from internet protocol address", ip, "...")
+        st.spinner(f"Processing your request from internet protocol address {ip} using {aiModel} LLM...")
         log_visitor(ip, user_input)
         
         with st.spinner("Talking to GPT-4o..."):
