@@ -18,10 +18,14 @@ import datetime
 # ---------- CONFIGURATION ----------
 
 # Your OpenAI API key (set this as an env var in production!)
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = "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"
 print(openai.api_key)
+client = OpenAI(api_key=openai.api_key)
+"""
 if (openai.api_key is NULL):
     openai.api_key = "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"
+"""
 aiModel = "gpt-4o"
 
 # Logging config
