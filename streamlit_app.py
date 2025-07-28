@@ -9,7 +9,7 @@ Created on Sat Jul  26 02:42:42 2025
 
 from pyexpat import model
 import streamlit as st
-import openai
+import openai as OpenAI
 import logging
 import os
 import datetime
@@ -18,13 +18,8 @@ import datetime
 
 # Your OpenAI API key (set this as an env var in production!)
 # openai.api_key = os.getenv("OPENAI_API_KEY")
-openai.api_key = "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"
-# print(openai.api_key)
-# client = openai(api_key = openai.api_key)
-"""
-if (openai.api_key is None):
-    openai.api_key = "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"
-"""
+key = "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"
+client = OpenAI(api_key = key) 
 aiModel = "gpt-4o"
 
 # Logging config
@@ -50,10 +45,9 @@ def log_visitor(ip, user_input):
 
 
 def call_openai(prompt):
-    try:
-        client = openai(api_key=openai.api_key)
+    try:        
         response = client.chat.completions.create(
-            model=aiModel,
+            model = aiModel,
             messages=[
                 {"role": "system", "content": "You're a helpful assistant."},
                 {"role": "user", "content": prompt}
