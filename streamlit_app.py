@@ -9,7 +9,7 @@ Created on Sat Jul  26 02:42:42 2025
 
 from pyexpat import model
 import streamlit as st
-import openai as ai
+import openai
 import logging
 import os
 import datetime
@@ -17,7 +17,7 @@ import datetime
 # ---------- CONFIGURATION ----------
 
 # Your OpenAI API key (set this as an env var in production!)
-ai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("OPENAI_API_KEY")
 aiModel = "gpt-4o"
 
 # Logging config
@@ -36,14 +36,15 @@ def get_visitor_ip():
     fallback_ip = os.environ.get("REMOTE_ADDR", "unknown")
     return cf_ip or fallback_ip
 
+
 def log_visitor(ip, user_input):
     timestamp = datetime.datetime.now().isoformat()
     logging.info(f"{timestamp} | IP: {ip} | Prompt: {user_input}")
 
+
 def call_openai(prompt):
     try:
-        client = ai()
-        response = client.chat.completions.create(
+        response = openai.chat.completions.create(
             model=aiModel,
             messages=[
                 {"role": "system", "content": "You're a helpful assistant."},
