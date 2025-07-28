@@ -29,8 +29,8 @@ logging.basicConfig(
 # ---------- UTILS ----------
 
 def get_visitor_ip():
-    headers = st.get_query_params
-    cf_ip = headers.get("cf-connecting-ip", [None])[0]
+    params = st.query_params
+    cf_ip = params.get("cf-connecting-ip", [None])[0]
     fallback_ip = os.environ.get("REMOTE_ADDR", "unknown")
     return cf_ip or fallback_ip
 
