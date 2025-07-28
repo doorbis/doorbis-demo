@@ -21,9 +21,9 @@ import datetime
 # openai.api_key = os.getenv("OPENAI_API_KEY")
 openai.api_key = "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"
 print(openai.api_key)
-client = OpenAI(api_key = openai.api_key)
+# client = openai(api_key = openai.api_key)
 """
-if (openai.api_key is NULL):
+if (openai.api_key is None):
     openai.api_key = "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"
 """
 aiModel = "gpt-4o"
@@ -52,7 +52,8 @@ def log_visitor(ip, user_input):
 
 def call_openai(prompt):
     try:
-        response = openai.chat.completions.create(
+        client = openai(api_key=api_key)
+        response = client.chat.completions.create(
             model=aiModel,
             messages=[
                 {"role": "system", "content": "You're a helpful assistant."},
