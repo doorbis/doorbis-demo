@@ -9,7 +9,7 @@ Created on Sat Jul  26 02:42:42 2025
 
 from pyexpat import model
 import streamlit as st
-import openai as OpenAI
+from openai import OpenAI
 import logging
 import os
 import datetime
