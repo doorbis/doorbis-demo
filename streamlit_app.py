@@ -16,10 +16,11 @@ import datetime
 
 # ---------- CONFIGURATION ----------
 
-# Your OpenAI API key (set this as an env var in production!)
-# openai.api_key = os.getenv("OPENAI_API_KEY")
-key = "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"
-client = OpenAI(api_key = key) 
+# OpenAI API key from the environment variable
+# Ensure you set the OPENAI_API_KEY environment variable before running the app
+client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))  # Use environment variable for security
+if not client.api_key:
+    raise ValueError("OpenAI API key not set. Please set the OPENAI_API_KEY environment variable.")
 aiModel = "gpt-4o"
 
 # Logging config
