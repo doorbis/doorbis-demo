@@ -3,7 +3,7 @@
 Created on Sat Jul  26 02:42:42 2025
 
 @project: doorbis.com demo
- @author: sterling
+ @author: russ
   @model: 4o
 """
 
