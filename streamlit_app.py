@@ -13,15 +13,22 @@ from openai import OpenAI
 import logging
 import os
 import datetime
+from models import openai_models  # Importing the list of models
 
 # ---------- CONFIGURATION ----------
+
+# Set the AI model to use from environment variable or default to gpt-4o
+# Ensure you set the AI_MODEL environment variable before running the app
+aiModel = os.getenv("AI_MODEL", "gpt-4o")  # Default to gpt-4o if not set
+if aiModel not in openai_models:
+    raise ValueError(f"Unsupported AI model: {aiModel}. Supported models are: {openai_models}.")
 
 # OpenAI API key from the environment variable
 # Ensure you set the OPENAI_API_KEY environment variable before running the app
 client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))  # Use environment variable for security
 if not client.api_key:
     raise ValueError("OpenAI API key not set. Please set the OPENAI_API_KEY environment variable.")
-aiModel = "gpt-4o"
+
 
 # Logging config
 LOG_FILE = "visitors.log"
