@@ -1,0 +1,18 @@
+| Acronym  | Stands for                                         | Typical context                                                |
+| -------- | -------------------------------------------------- | -------------------------------------------------------------- |
+| **ADU**  | Accessory Dwelling Unit                            | Secondary housing on same residential lot                      |
+| **MLS**  | Multiple Listing Service                           | Database agents use to list and search properties              |
+| **HOA**  | Homeowners Association                             | Condominium or subdivision rules, monthly dues                 |
+| **FHA**  | Federal Housing Administration                     | Low-down-payment loans, first-time-buyer programs              |
+| **HUD**  | (U.S.) Department of Housing and Urban Development | Government-backed foreclosures, fair-housing regs              |
+| **ROI**  | Return on Investment                               | Evaluating rental or flip profitability                        |
+| **LTV**  | Loan-to-Value (ratio)                              | Mortgage underwriting, refinance limits                        |
+| **APR**  | Annual Percentage Rate                             | True cost of borrowing, loan comparisons                       |
+| **CMA**  | Comparative Market Analysis                        | Agent’s price opinion before listing                           |
+| **BPO**  | Broker Price Opinion                               | Lender or asset-manager valuation (cheaper than an appraisal)  |
+| **REO**  | Real Estate Owned                                  | Bank-owned property after foreclosure                          |
+| **PITI** | Principal, Interest, Taxes & Insurance             | Full monthly mortgage payment components                       |
+| **ARV**  | After Repair Value                                 | House-flipping budgets and hard-money loan terms               |
+| **NOI**  | Net Operating Income                               | Income-property analysis before debt service                   |
+| **GLA**  | Gross Living Area                                  | Square footage that counts toward value                        |
+| **TIC**  | Tenants-in-Common                                  | Fractional ownership structure, common in CA multifamily deals |

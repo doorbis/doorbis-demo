@@ -14,6 +14,7 @@ import logging
 import os
 import datetime
 from models import openai_models  # Importing the list of models
+from PIL import Image
 
 # ---------- CONFIGURATION ----------
 
@@ -69,8 +70,10 @@ def call_openai(prompt):
 # ---------- UI ----------
 
 st.set_page_config(page_title="doorbis demo", layout="centered")
-
+logo = Image.open("doorbis_logo.png")  # Ensure you have a logo image in the same directory 
 st.title("💡 doorbis demo")
+st.image(logo, width=200, use_column_width=True)
+
 st.markdown("Ask a question, get an AI-generated response. Your IP will be logged.")
 
 user_input = st.text_area("Enter your message:", height = 100)
@@ -81,9 +84,9 @@ if st.button("Send"):
         st.spinner(f"Processing your request from internet protocol address {ip} using {aiModel} LLM...")
         log_visitor(ip, user_input)
         
-        with st.spinner("Talking to GPT-4o..."):
+        with st.spinner(f"Talking to {aiModel}..."):
             response = call_openai(user_input)
-        st.success("AI response:")
+        st.success("Response:")
         st.write(response)
     else:
         st.warning("Please enter a message before sending.")
