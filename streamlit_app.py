@@ -18,9 +18,9 @@ from PIL import Image
 
 # ---------- CONFIGURATION ----------
 
-# Set the AI model to use from environment variable or default to gpt-4o
+# Set the AI model to use from environment variable or default to gpt-5
 # Ensure you set the AI_MODEL environment variable before running the app
-aiModel = os.getenv("AI_MODEL", "gpt-4o")  # Default to gpt-4o if not set
+aiModel = os.getenv("AI_MODEL", "gpt-5")  # Default to gpt-5 if not set
 if aiModel not in openai_models:
     raise ValueError(f"Unsupported AI model: {aiModel}. Supported models are: {openai_models}.")
 
@@ -71,8 +71,8 @@ def call_openai(prompt):
 
 st.set_page_config(page_title="doorbis demo", layout="centered")
 logo = Image.open("doorbis_logo.png")  # Ensure you have a logo image in the same directory 
-st.title("💡 doorbis demo")
-st.image(logo, width=200, use_column_width=True)
+# st.title("💡 doorbis demo")
+st.image(logo, width=100, use_container_width=True)
 
 st.markdown("Ask a question, get an AI-generated response. Your IP will be logged.")
 
