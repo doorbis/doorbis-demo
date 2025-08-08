@@ -24,6 +24,10 @@ aiModel = os.getenv("AI_MODEL", "gpt-5")  # Default to gpt-5 if not set
 if aiModel not in openai_models:
     raise ValueError(f"Unsupported AI model: {aiModel}. Supported models are: {openai_models}.")
 
+# Set the AI model to use from environment variable or default to gpt-5
+# Ensure you set the AI_MODEL environment variable before running the app
+aiTemperature = os.getenv("AI_TEMPERATURE", 1.0)  # Default to 1.0 if not set
+
 # OpenAI API key from the environment variable
 # Ensure you set the OPENAI_API_KEY environment variable before running the app
 client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))  # Use environment variable for security
@@ -61,7 +65,7 @@ def call_openai(prompt):
                 {"role": "system", "content": "You're a helpful assistant."},
                 {"role": "user", "content": prompt}
             ],
-            temperature=0.7,
+            temperature=aiTemperature,
         )
         return response.choices[0].message.content.strip()
     except Exception as e:
