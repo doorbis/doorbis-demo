@@ -15,6 +15,7 @@ import os
 import datetime
 from models import openai_models  # Importing the list of models
 from PIL import Image
+import io
 
 # ---------- CONFIGURATION ----------
 
@@ -74,7 +75,7 @@ def call_openai(prompt):
 # ---------- UI ----------
 
 st.set_page_config(page_title="doorbis demo", layout="centered")
-logo = Image.open("doorbis_logo.png")  # Ensure you have a logo image in the same directory 
+logo = Image.open("doorbis_logo_2.png")  # Ensure you have a logo image in the same directory 
 # st.title("💡 doorbis demo")
 st.image(logo, width=100, use_container_width=True)
 
