@@ -15,7 +15,6 @@ import os
 import datetime
 from models import openai_models  # Importing the list of models
 from PIL import Image
-import io
 
 # ---------- CONFIGURATION ----------
 
