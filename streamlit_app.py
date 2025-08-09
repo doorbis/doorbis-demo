@@ -15,6 +15,8 @@ import os
 import datetime
 from models import openai_models  # Importing the list of models
 from PIL import Image
+import base64
+import pathlib
 
 # ---------- CONFIGURATION ----------
 
@@ -27,12 +29,6 @@ if aiModel not in openai_models:
 # Set the AI model to use from environment variable or default to gpt-5
 # Ensure you set the AI_MODEL environment variable before running the app
 aiTemperature = os.getenv("AI_TEMPERATURE", 1.0)  # Default to 1.0 if not set
-
-# OpenAI API key from the environment variable
-# Ensure you set the OPENAI_API_KEY environment variable before running the app
-client = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))  # Use environment variable for security
-if not client.api_key:
-    raise ValueError("OpenAI API key not set. Please set the OPENAI_API_KEY environment variable.")
 
 
 # Logging config
@@ -57,43 +53,72 @@ def log_visitor(ip, user_input):
     logging.info(f"{timestamp} | IP: {ip} | Prompt: {user_input}")
 
 
-def call_openai(prompt):
-    try:        
-        response = client.chat.completions.create(
-            model = aiModel,
-            messages=[
-                {"role": "system", "content": "You're a helpful assistant."},
-                {"role": "user", "content": prompt}
-            ],
-            temperature=aiTemperature,
-        )
-        return response.choices[0].message.content.strip()
-    except Exception as e:
-        return f"Error calling OpenAI: {e}"
+# --- Read query params (compatible across Streamlit versions) ---
+def get_query_params():
+    try:
+        # Newer Streamlit may have st.query_params
+        return dict(st.query_params)
+    except Exception:
+        # Fallback for older Streamlit
+        return st.experimental_get_query_params()
+
+def first(v, default=""):
+    if v is None:
+        return default
+    if isinstance(v, list):
+        return v[0] if v else default
+    return v
+
+params = get_query_params()
+goto = first(params.get("goto"))
+
+# --- Handle "click-through" ---
+if goto == "logo":
+    # Navigate by setting the official multipage ?page=... param.
+    # NOTE: Page name must match how Streamlit derives it from filename:
+    # pages/doorbis_demo.py  ->  "Doorbis Demo"
+    try:
+        st.experimental_set_query_params(page="Doorbis Demo")  # clears other params
+    except Exception:
+        # Very-old fallback: try updating then rerunning
+        try:
+            st.query_params.clear()
+            st.query_params["page"] = "Doorbis Demo"
+        except Exception:
+            pass
+    # Force navigation
+    try:
+        st.rerun()
+    except Exception:
+        st.experimental_rerun()
+
+# --- Page body: show a clickable logo ---
+# st.title("Welcome")
+st.set_page_config(page_title="doorbis demo", page_icon="🟩", layout="centered")
+
+# Path to your logo file
+logo_path = pathlib.Path(__file__).parent / "doorbis_logo_2.png"
+if not logo_path.exists():
+    st.error(f"Logo not found at {logo_path}")
+else:
+    # Make the image itself clickable by embedding it in an <a> tag
+    b64 = base64.b64encode(logo_path.read_bytes()).decode("utf-8")
+    html = f'''
+        <a href="?goto=logo" style="text-decoration:none; border:0; outline:0;">
+            <img src="data:image/png;base64,{b64}"
+                 alt="Doorbis logo"
+                 style="max-width: 280px; height: auto; display:block; margin: 2rem auto;" />
+        </a>
+        <div style="text-align:center; font-size:0.9rem; opacity:0.7;">
+            Click the logo to continue
+        </div>
+    '''
+    st.markdown(html, unsafe_allow_html=True)
+
+# Optional: text-link fallback (if HTML clicking were ever blocked)
+st.write("[Continue ➜](./?goto=logo)")
 
 # ---------- UI ----------
-
-st.set_page_config(page_title="doorbis demo", layout="centered")
-logo = Image.open("doorbis_logo_2.png")  # Ensure you have a logo image in the same directory 
-# st.title("💡 doorbis demo")
-st.image(logo, width=100, use_container_width=True)
-
-st.markdown("Ask a question, get an AI-generated response. Your IP will be logged.")
-
-user_input = st.text_area("Enter your message:", height = 100)
-
-if st.button("Send"):
-    if user_input.strip():
-        ip = get_visitor_ip()
-        st.spinner(f"Processing your request from internet protocol address {ip} using {aiModel} LLM...")
-        log_visitor(ip, user_input)
-        
-        with st.spinner(f"Talking to {aiModel}..."):
-            response = call_openai(user_input)
-        st.success("Response:")
-        st.write(response)
-    else:
-        st.warning("Please enter a message before sending.")
 
 # Footer
 st.markdown("---")
