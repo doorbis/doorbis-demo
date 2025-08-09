@@ -39,15 +39,6 @@ def log_visitor(ip, user_input):
     logging.info(f"{timestamp} | IP: {ip} | Prompt: {user_input}")
 
 
-# --- Read query params (compatible across Streamlit versions) ---
-def get_query_params():
-    try:
-        # Newer Streamlit may have st.query_params
-        return dict(st.query_params)
-    except Exception:
-        # Fallback for older Streamlit
-        return st.experimental_get_query_params()
-
 def first(v, default=""):
     if v is None:
         return default
@@ -55,8 +46,9 @@ def first(v, default=""):
         return v[0] if v else default
     return v
 
-params = get_query_params()
-goto = first(params.get("goto"))
+# params = st.query_params.get()
+# goto = first(params.get("goto"))
+goto = first(st.query_params.get("goto"))
 
 # --- Handle "click-through" ---
 if goto == "logo":
@@ -64,19 +56,23 @@ if goto == "logo":
     # NOTE: Page name must match how Streamlit derives it from filename:
     # pages/doorbis_demo.py  ->  "Doorbis Demo"
     try:
-        st.experimental_set_query_params(page="Doorbis Demo")  # clears other params
+        # st.experimental_set_query_params(page="Doorbis Demo")  # clears other params
+        st.query_params.update({"page": "Doorbis Demo"})  # update without clearing
+
     except Exception:
+        pass
         # Very-old fallback: try updating then rerunning
-        try:
-            st.query_params.clear()
-            st.query_params["page"] = "Doorbis Demo"
-        except Exception:
-            pass
+#        try:
+#            st.query_params.clear()
+#            st.query_params["page"] = "Doorbis Demo"
+#        except Exception:
+#            pass
     # Force navigation
     try:
         st.rerun()
     except Exception:
-        st.experimental_rerun()
+        pass
+ #         st.experimental_rerun()
 
 # --- Page body: show a clickable logo ---
 # st.title("Welcome")
