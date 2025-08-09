@@ -7,29 +7,15 @@ Created on Sat Jul  26 02:42:42 2025
   @model: 4o
 """
 
-from pyexpat import model
 import streamlit as st
-from openai import OpenAI
 import logging
 import os
 import datetime
-from models import openai_models  # Importing the list of models
 from PIL import Image
 import base64
 import pathlib
 
 # ---------- CONFIGURATION ----------
-
-# Set the AI model to use from environment variable or default to gpt-5
-# Ensure you set the AI_MODEL environment variable before running the app
-aiModel = os.getenv("AI_MODEL", "gpt-5")  # Default to gpt-5 if not set
-if aiModel not in openai_models:
-    raise ValueError(f"Unsupported AI model: {aiModel}. Supported models are: {openai_models}.")
-
-# Set the AI model to use from environment variable or default to gpt-5
-# Ensure you set the AI_MODEL environment variable before running the app
-aiTemperature = os.getenv("AI_TEMPERATURE", 1.0)  # Default to 1.0 if not set
-
 
 # Logging config
 LOG_FILE = "visitors.log"
